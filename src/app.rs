@@ -3,19 +3,27 @@ extern crate graphics;
 extern crate opengl_graphics;
 extern crate piston;
 
-use opengl_graphics::GlGraphics;
+use glutin_window::GlutinWindow as Window;
+use opengl_graphics::{GlGraphics, OpenGL};
 use piston::input::{RenderArgs, UpdateArgs};
+use piston::window::WindowSettings;
 
 pub struct App {
+    pub window: Window,
     gl: GlGraphics,
     rotation: f64,
 }
 
 impl App {
     // Constructor
-    pub fn new(gl : GlGraphics) -> App {
+    pub fn new(opengl : OpenGL) -> App {
         App {
-            gl: gl,
+            window: WindowSettings::new("square-go-wee", [200, 200])
+                .graphics_api(opengl)
+                .exit_on_esc(true)
+                .build()
+                .unwrap(),
+            gl: GlGraphics::new(opengl),
             rotation: 0.0
         }
     }
